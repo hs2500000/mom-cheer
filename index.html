@@ -273,7 +273,7 @@ body{
   <div class="header">
     <div class="icon" id="momFace">😷</div>
     <div class="title">💪 妈妈加油！</div>
-    <div class="warm-banner" id="momBanner">🫁 肺不舒服…帮妈妈撑过去！</div>
+    <div class="warm-banner" id="momBanner">🌬️ 肺不舒服…帮妈妈撑过去！</div>
   </div>
 
   <div class="story-box" id="momStory">
@@ -288,11 +288,11 @@ body{
   </div>
 
   <div class="garden" id="garden">
-    <div class="crop dry"><span class="icon">🫁</span><span class="name">肺部</span><span class="status">😰 闷着</span></div>
+    <div class="crop dry"><span class="icon">🌬️</span><span class="name">肺部</span><span class="status">😰 闷着</span></div>
     <div class="crop dry"><span class="icon">🍐</span><span class="name">梨汤</span><span class="status">😰 没喝</span></div>
     <div class="crop dry"><span class="icon">💊</span><span class="name">药</span><span class="status">😰 没吃</span></div>
     <div class="crop dry"><span class="icon">🤲</span><span class="name">拍背</span><span class="status">😰 没拍</span></div>
-    <div class="crop dry"><span class="icon">🫖</span><span class="name">温水</span><span class="status">😰 冷了</span></div>
+    <div class="crop dry"><span class="icon">🍵</span><span class="name">温水</span><span class="status">😰 冷了</span></div>
     <div class="crop dry"><span class="icon">💤</span><span class="name">安睡</span><span class="status">😰 失眠</span></div>
   </div>
   <div class="garden-bottom">🏠 妈妈康复 · 爱心照护站</div>
@@ -301,7 +301,7 @@ body{
     <div class="storage-title">🎁 肺部康复物资篮 <span style="font-size:9px;opacity:.7">（随加油逐个点亮✨）</span></div>
     <div class="storage-shelf" id="storageShelf">
       <span class="storage-slot">🍐</span><span class="storage-slot">🍯</span><span class="storage-slot">🍋</span>
-      <span class="storage-slot">💊</span><span class="storage-slot">🫖</span><span class="storage-slot">🌿</span>
+      <span class="storage-slot">💊</span><span class="storage-slot">🍵</span><span class="storage-slot">🌿</span>
       <span class="storage-slot">🧴</span><span class="storage-slot">🧻</span><span class="storage-slot">🛌</span>
       <span class="storage-slot">🍵</span><span class="storage-slot">🧊</span><span class="storage-slot">💨</span>
       <span class="storage-slot">🌬️</span><span class="storage-slot">💤</span><span class="storage-slot">🫂</span>
@@ -353,7 +353,7 @@ body{
 <div class="win-overlay" id="winOverlay">
   <div class="win-dialog">
     <div class="win-icon">🥰</div>
-    <div class="win-text">🫁 妈妈的肺好了！</div>
+    <div class="win-text">🌬️ 妈妈的肺好了！</div>
     <div class="win-sub" id="winStats"></div>
     <button class="win-close" id="winClose">🥹 太好了…</button>
   </div>
@@ -519,7 +519,7 @@ function spawnParticles(x,y){
 
 // 🎉 胜利庆祝粒子雨
 function celebrateBurst(x,y){
-  var emojis=['🎉','🥰','❤️','✨','🌟','🫁','💖','🎊','💗','🥳','💝','🌈'];
+  var emojis=['🎉','🥰','❤️','✨','🌟','🌬️','💖','🎊','💗','🥳','💝','🌈'];
   for(var i=0;i<20;i++){
     var p=document.createElement('span');
     p.className='celebrate-particle';
@@ -534,11 +534,11 @@ function celebrateBurst(x,y){
 }
 
 var recoveryTexts={
-  '肺部':'🫁 通了',
+  '肺部':'🌬️ 通了',
   '梨汤':'🍐 喝了',
   '药':'💊 吃了',
   '拍背':'🤲 拍了',
-  '温水':'🫖 热了',
+  '温水':'🍵 热了',
   '安睡':'💤 睡了'
 };
 function waterOne(){
@@ -566,9 +566,9 @@ function updateMomCondition(){
   else if(pct>=0.92){face='😊';banner='💖 妈妈快好了！呼吸顺畅多了！'}
   else if(pct>=0.76){face='🙂';banner='😌 妈妈能下床了，咳嗽少了很多';}
   else if(pct>=0.52){face='😌';banner='🍐 梨汤起效了…妈妈呼吸好一点了';}
-  else if(pct>=0.28){face='😷';banner='🫁 妈妈还在咳…但你在努力！';}
-  else if(pct>=0.12){face='🤒';banner='🫁 妈妈肺不舒服…继续加油！';}
-  else{face='😷';banner='🫁 肺不舒服…帮妈妈撑过去！';}
+  else if(pct>=0.28){face='😷';banner='🌬️ 妈妈还在咳…但你在努力！';}
+  else if(pct>=0.12){face='🤒';banner='🌬️ 妈妈肺不舒服…继续加油！';}
+  else{face='😷';banner='🌬️ 肺不舒服…帮妈妈撑过去！';}
   momFace.textContent=face;
   momBanner.textContent=banner;
 }
@@ -653,7 +653,7 @@ function tryWater(){
     storageSlots.forEach(function(s){s.classList.add('filled')});
     floatingDecos.forEach(function(d){d.classList.add('visible')});
 
-    updateMsg('<span style="font-size:40px">🥰</span><br>🫁 妈妈的肺好了！！能畅快呼吸了！！<br>你加了 <b style="color:#d63031;font-size:30px">'+attempts+'</b> 次油！！');
+    updateMsg('<span style="font-size:40px">🥰</span><br>🌬️ 妈妈的肺好了！！能畅快呼吸了！！<br>你加了 <b style="color:#d63031;font-size:30px">'+attempts+'</b> 次油！！');
     playAudio('victory');
 
     // 闪光+粒子
@@ -686,7 +686,7 @@ function closeWin(e){
     progressPct.textContent='0%';
     countdownDays.textContent='7';
     momFace.textContent='😷';
-    momBanner.textContent='🫁 肺不舒服…帮妈妈撑过去！';
+    momBanner.textContent='🌬️ 肺不舒服…帮妈妈撑过去！';
     storageSlots.forEach(function(s){s.classList.remove('filled')});
     floatingDecos.forEach(function(d){d.classList.remove('visible')});
     updateMsg('😷 妈妈咳得厉害…快帮妈妈！');
