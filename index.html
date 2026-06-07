@@ -316,7 +316,7 @@ const storageShelf=document.getElementById('storageShelf');
 const storageSlots=storageShelf.querySelectorAll('.storage-slot');
 const floatingDecos=document.querySelectorAll('.floating-deco');
 
-const VICTORY=200;
+const VICTORY=25;
 let attempts=0,done=false,voiceOn=true,voiceStarted=false;
 
 // 🔊 音频播放
@@ -349,7 +349,7 @@ voiceToggle.addEventListener('pointerdown',function(e){
 
 // 里程碑
 var milestoneVoices={
-  20:1,50:1,80:1,100:1,120:1,150:1,180:1
+  10:1,15:1,20:1
 };
 
 function speakMilestone(n){
@@ -383,7 +383,7 @@ var taunts=[
 ];
 
 var phase2Taunts=[
-  '<span style="font-size:40px">🥹</span><br>一百多次了…妈妈都感动哭了',
+  '<span style="font-size:40px">🥹</span><br>十几次了…妈妈都感动哭了',
   '<span style="font-size:40px">😊</span><br>妈妈笑了！虽然只是一下下！',
   '<span style="font-size:40px">🤗</span><br>隔壁阿姨说你真孝顺…但还不够！',
   '<span style="font-size:40px">😌</span><br>妈妈的烧退了一点…继续加油！',
@@ -456,20 +456,20 @@ function waterOne(){
 }
 
 function getPhaseTaunt(){
-  if(attempts>=180)return phase4Taunts[Math.floor(Math.random()*phase4Taunts.length)];
-  if(attempts>=150)return phase3Taunts[Math.floor(Math.random()*phase3Taunts.length)];
-  if(attempts>=100)return phase2Taunts[Math.floor(Math.random()*phase2Taunts.length)];
+  if(attempts>=23)return phase4Taunts[Math.floor(Math.random()*phase4Taunts.length)];
+  if(attempts>=19)return phase3Taunts[Math.floor(Math.random()*phase3Taunts.length)];
+  if(attempts>=13)return phase2Taunts[Math.floor(Math.random()*phase2Taunts.length)];
   return taunts[Math.floor(Math.random()*taunts.length)];
 }
 
 function updateButton(){
   btn.className='water-btn';
   var pct=attempts/VICTORY;
-  if(pct>=0.9)btn.classList.add('phase6');
-  else if(pct>=0.75)btn.classList.add('phase5');
-  else if(pct>=0.5)btn.classList.add('phase4');
-  else if(pct>=0.25)btn.classList.add('phase3');
-  else if(pct>=0.1)btn.classList.add('phase2');
+  if(pct>=0.92)btn.classList.add('phase6');
+  else if(pct>=0.76)btn.classList.add('phase5');
+  else if(pct>=0.52)btn.classList.add('phase4');
+  else if(pct>=0.28)btn.classList.add('phase3');
+  else if(pct>=0.12)btn.classList.add('phase2');
 }
 
 function updateStorage(){
@@ -509,10 +509,10 @@ function tryWater(){
   updateMsg(t);
   updateProgress();
 
-  if(attempts>=20&&Math.floor(attempts/10)!==lastMilestone){
-    var m=Math.floor(attempts/10)*10;
+  if(attempts>=10&&Math.floor(attempts/5)!==lastMilestone){
+    var m=Math.floor(attempts/5)*5;
     if(milestoneVoices[m]){
-      lastMilestone=Math.floor(attempts/10);
+      lastMilestone=Math.floor(attempts/5);
       speakMilestone(m);
     }
   }
@@ -526,15 +526,15 @@ function tryWater(){
     setTimeout(function(){garden.classList.remove('shake')},450);
   }
 
-  if(attempts>=100&&attempts<150){
+  if(attempts>=13&&attempts<19){
     if(attempts%3===0)waterOne();
-    if(attempts%10===0)updateMsg('<span style="font-size:38px">🥹</span><br>妈妈在好转…要坚持！<br>康复进度:'+Math.floor(attempts/VICTORY*100)+'%');
-  }else if(attempts>=150&&attempts<180){
+    if(attempts%5===0)updateMsg('<span style="font-size:38px">🥹</span><br>妈妈在好转…要坚持！<br>康复进度:'+Math.floor(attempts/VICTORY*100)+'%');
+  }else if(attempts>=19&&attempts<23){
     if(attempts%2===0)waterOne();
-    if(attempts%15===0)updateMsg('<span style="font-size:38px">😊</span><br>妈妈能下床了！！<br>还剩 <b style="color:#d63031;font-size:28px">'+(200-attempts)+'</b> 次！再坚持一下！！');
-  }else if(attempts>=180&&attempts<VICTORY){
+    if(attempts%4===0)updateMsg('<span style="font-size:38px">😊</span><br>妈妈能下床了！！<br>还剩 <b style="color:#d63031;font-size:28px">'+(VICTORY-attempts)+'</b> 次！再坚持一下！！');
+  }else if(attempts>=23&&attempts<VICTORY){
     waterOne();
-    if(attempts%7===0)updateMsg('<span style="font-size:38px">🔥</span><br>妈妈马上就要好了！！<br>还差 <b style="color:#d63031;font-size:30px">'+(VICTORY-attempts)+'</b> 次！！加油加油！！');
+    if(attempts%3===0)updateMsg('<span style="font-size:38px">🔥</span><br>妈妈马上就要好了！！<br>还差 <b style="color:#d63031;font-size:30px">'+(VICTORY-attempts)+'</b> 次！！加油加油！！');
   }else if(attempts>=VICTORY){
     done=true;
     btn.className='water-btn';
