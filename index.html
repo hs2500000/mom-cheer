@@ -608,84 +608,61 @@ function tryWater(){
   if(done)return;
   attempts++;
 
-  if(!voiceStarted){
-    voiceStarted=true;
-    playAudio('backstory');
-  }
+  if(!voiceStarted){voiceStarted=true;playAudio('backstory')}
 
   var rect=btn.getBoundingClientRect();
   spawnParticles(rect.left+rect.width/2,rect.top);
 
-  var t=getPhaseTaunt().replace('{n}',attempts);
-  updateMsg(t);
-  updateProgress();
+  // 照护道具
+  if(attempts>=13&&attempts<19&&attempts%3===0)waterOne();
+  else if(attempts>=19&&attempts<23&&attempts%2===0)waterOne();
+  else if(attempts>=23&&attempts<25)waterOne();
 
-  if(attempts>=10&&Math.floor(attempts/5)!==lastMilestone){
-    var m=Math.floor(attempts/5)*5;
-    if(milestoneVoices[m]){
-      lastMilestone=Math.floor(attempts/5);
-      speakMilestone(m);
-    }
-  }
-
+  // 视觉更新
   updateMomCondition();
   updateButton();
   updateStorage();
   updateDecorations();
+  updateProgress();
 
-  if(attempts%5===0){
-    garden.classList.add('shake');
-    setTimeout(function(){garden.classList.remove('shake')},450);
+  // 震动 + 闪光
+  if(attempts%5===0){garden.classList.add('shake');setTimeout(function(){garden.classList.remove('shake')},450)}
+  if((attempts===10||attempts===20)&&document.querySelector('.container')){document.querySelector('.container').classList.add('screen-flash');setTimeout(function(){document.querySelector('.container').classList.remove('screen-flash')},400)}
+
+  // 里程碑语音
+  if(attempts%5===0&&attempts<25&&milestoneVoices[attempts]){
+    speakMilestone(attempts);
   }
 
-  // ⚡ 里程碑闪光
-  var container=document.querySelector('.container');
-  if(attempts===10||attempts===20){
-    container.classList.add('screen-flash');
-    setTimeout(function(){container.classList.remove('screen-flash')},400);
-  }
+  // 嘲讽消息
+  var t=getPhaseTaunt().replace('{n}',attempts);
+  if(attempts>=13&&attempts<19&&attempts%5===0)t='<span style="font-size:38px">🥹</span><br>妈妈在好转…要坚持！<br>康复进度:'+Math.floor(attempts/25*100)+'%';
+  else if(attempts>=19&&attempts<23&&attempts%4===0)t='<span style="font-size:38px">😊</span><br>妈妈能下床了！！<br>还剩 <b style="color:#d63031;font-size:28px">'+(25-attempts)+'</b> 次！';
+  else if(attempts>=23&&attempts<25&&attempts%3===0)t='<span style="font-size:38px">🔥</span><br>就差一点了！！<br>还差 <b style="color:#d63031;font-size:30px">'+(25-attempts)+'</b> 次！！';
+  updateMsg(t);
 
-  if(attempts>=13&&attempts<19){
-    if(attempts%3===0)waterOne();
-    if(attempts%5===0)updateMsg('<span style="font-size:38px">🥹</span><br>妈妈在好转…要坚持！<br>康复进度:'+Math.floor(attempts/25*100)+'%');
-  }else if(attempts>=19&&attempts<23){
-    if(attempts%2===0)waterOne();
-    if(attempts%4===0)updateMsg('<span style="font-size:38px">😊</span><br>妈妈能下床了！！<br>还剩 <b style="color:#d63031;font-size:28px">'+(25-attempts)+'</b> 次！再坚持一下！！');
-  }else if(attempts>=23&&attempts<25){
-    waterOne();
-    if(attempts%3===0)updateMsg('<span style="font-size:38px">🔥</span><br>妈妈马上就要好了！！<br>还差 <b style="color:#d63031;font-size:30px">'+(25-attempts)+'</b> 次！！加油加油！！');
-  }else if(attempts>=25){
+  // ═══ 胜利终结（硬编码25） ═══
+  if(attempts>=25){
     done=true;
     btn.className='water-btn done';
     btn.textContent='🥰 妈妈肺好了！！能呼吸了！！';
-    // ⚡ 胜利闪光
-    document.querySelector('.container').classList.add('screen-flash');
-    setTimeout(function(){document.querySelector('.container').classList.remove('screen-flash')},400);
-    // 🎉 庆祝粒子雨
-    for(var ci=0;ci<3;ci++){
-      setTimeout(function(){celebrateBurst(window.innerWidth/2,window.innerHeight/2)},ci*400);
-    }
-    document.querySelectorAll('.crop').forEach(function(c){
-      c.classList.remove('dry');c.classList.add('watered');
-      var name=c.querySelector('.name').textContent;
-      c.querySelector('.status').textContent=recoveryTexts[name]||'✅ 好了';
-    });
-    progressFill.style.width='100%';
-    progressPct.textContent='100%';
-    countdownDays.textContent='0';
+
+    document.querySelectorAll('.crop').forEach(function(c){c.classList.remove('dry');c.classList.add('watered');c.querySelector('.status').textContent='✅ 好了'});
+    progressFill.style.width='100%';progressPct.textContent='100%';
+    countdownDays.textContent='0';momFace.textContent='🥰';momBanner.textContent='🎉 妈妈康复了！！肺全好了！！';
     storageSlots.forEach(function(s){s.classList.add('filled')});
     floatingDecos.forEach(function(d){d.classList.add('visible')});
 
-    updateMsg('<span style="font-size:40px">🥰</span><br>🫁 妈妈的肺好了！！能畅快呼吸了！！<br>你加了 <b style="color:#d63031;font-size:30px">'+attempts+'</b> 次油！你是最棒的孩子！！');
-
+    updateMsg('<span style="font-size:40px">🥰</span><br>🫁 妈妈的肺好了！！能畅快呼吸了！！<br>你加了 <b style="color:#d63031;font-size:30px">'+attempts+'</b> 次油！！');
     playAudio('victory');
 
+    // 闪光+粒子
+    var c=document.querySelector('.container');if(c){c.classList.add('screen-flash');setTimeout(function(){c.classList.remove('screen-flash')},400)}
+    for(var i=0;i<3;i++){setTimeout(function(){celebrateBurst(window.innerWidth/2,window.innerHeight/2)},i*400)}
+
+    // 弹窗
     setTimeout(function(){
-      winStats.innerHTML='<b style="color:#d63031;font-size:16px">🏆 最棒的孩子</b><br><br>'+
-        '你帮妈妈了 <b style="color:#d63031;font-size:26px">'+attempts+'</b> 次<br>'+
-        '每一次拍背、每一碗梨汤、每一粒药 ❤️<br><br>'+
-        '<b style="color:#d63031;font-size:18px">「妈妈深呼吸了一口：<br>终于不咳了…肺里好舒服」</b><br><br>'+
-        '<span style="color:#795548;font-size:13px">你的爱比任何药都管用<br>妈妈能畅快呼吸了，你们去公园吧</span>';
+      winStats.innerHTML='<b style="color:#d63031;font-size:16px">🏆 最棒的孩子</b><br><br>你帮妈妈了 <b style="color:#d63031;font-size:26px">'+attempts+'</b> 次<br>每一次拍背、每一碗梨汤、每一粒药 ❤️<br><br><b style="color:#d63031;font-size:18px">「妈妈深呼吸了一口：<br>终于不咳了…肺里好舒服」</b><br><br><span style="color:#795548;font-size:13px">妈妈能畅快呼吸了</span>';
       winOverlay.classList.add('show');
     },800);
   }
