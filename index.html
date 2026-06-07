@@ -249,27 +249,29 @@ body{
   </div>
 
   <div class="header">
-    <div class="icon">🤒</div>
+    <div class="icon" id="momFace">😷</div>
     <div class="title">💪 妈妈加油！</div>
-    <div class="warm-banner">🏥 妈妈需要你 · 康复倒计时 <b id="countdownDays">7</b> 天 🏥</div>
+    <div class="warm-banner" id="momBanner">🫁 肺不舒服…帮妈妈撑过去！</div>
   </div>
 
-  <div class="story-box">
+  <div class="story-box" id="momStory">
     <p>
-    「妈妈<span class="highlight">生病了</span>…所有人都说我小，帮不上忙。<br>
-    但我知道，<span class="love-highlight">每一份关心</span>，每一次加油，<br>
-    <span class="highlight">每一碗热汤</span>、<span class="highlight">每一粒药</span>——<br>
+    「妈妈的<span class="highlight">肺</span>出了问题，呼吸很困难，<br>
+    咳得整晚都睡不好…<br>
+    所有人都说我帮不上忙。但我知道，<br>
+    <span class="highlight">每一次拍背</span>、<span class="highlight">每一碗梨汤</span>、<br>
+    <span class="highlight">每一次守在她身边</span>——<br>
     都是妈妈<span class="love-highlight">好起来的力量</span>。」
     </p>
   </div>
 
   <div class="garden" id="garden">
-    <div class="crop dry"><span class="icon">💊</span><span class="name">退烧药</span><span class="status">😰 没吃</span></div>
-    <div class="crop dry"><span class="icon">🍲</span><span class="name">热汤</span><span class="status">😰 凉了</span></div>
-    <div class="crop dry"><span class="icon">🧣</span><span class="name">围巾</span><span class="status">😰 没围</span></div>
-    <div class="crop dry"><span class="icon">🫖</span><span class="name">热水</span><span class="status">😰 冷了</span></div>
-    <div class="crop dry"><span class="icon">🌸</span><span class="name">鲜花</span><span class="status">😰 蔫了</span></div>
-    <div class="crop dry"><span class="icon">📖</span><span class="name">陪护</span><span class="status">😰 没人</span></div>
+    <div class="crop dry"><span class="icon">🫁</span><span class="name">肺部</span><span class="status">😰 闷着</span></div>
+    <div class="crop dry"><span class="icon">🍐</span><span class="name">梨汤</span><span class="status">😰 没喝</span></div>
+    <div class="crop dry"><span class="icon">💊</span><span class="name">药</span><span class="status">😰 没吃</span></div>
+    <div class="crop dry"><span class="icon">🤲</span><span class="name">拍背</span><span class="status">😰 没拍</span></div>
+    <div class="crop dry"><span class="icon">🫖</span><span class="name">温水</span><span class="status">😰 冷了</span></div>
+    <div class="crop dry"><span class="icon">💤</span><span class="name">安睡</span><span class="status">😰 失眠</span></div>
   </div>
   <div class="garden-bottom">🏠 妈妈康复 · 爱心照护站</div>
 
@@ -296,7 +298,7 @@ body{
   </div>
 
   <div class="msg-box" id="msgBox">
-    <span class="big" style="color:#5D4037">🤒 妈妈不舒服…快帮妈妈！</span>
+    <span class="big" style="color:#5D4037">😷 妈妈肺不舒服…快帮妈妈！</span>
   </div>
 </div>
 
@@ -309,9 +311,9 @@ body{
     <div class="intro-title">妈妈加油！<br>帮妈妈康复吧 💪</div>
     <div class="intro-divider"></div>
     <div class="intro-story">
-      妈妈<b>生病了</b>，在床上躺了好几天。<br>
+      妈妈的<b>肺</b>不舒服，咳得整晚睡不着。<br>
       所有人都说小孩帮不上忙——<br>
-      但你知道，<b>每一碗热汤、每一粒药、每一次陪伴</b>，都是妈妈好起来的力量。<br>
+      但你知道，<b>每一碗梨汤、每一粒药、每一次拍背</b>，都能让妈妈呼吸顺畅一点。<br>
       你愿意帮妈妈吗？
     </div>
     <div class="intro-divider"></div>
@@ -329,7 +331,7 @@ body{
 <div class="win-overlay" id="winOverlay">
   <div class="win-dialog">
     <div class="win-icon">🥰</div>
-    <div class="win-text">❤️ 妈妈康复了！</div>
+    <div class="win-text">🫁 妈妈的肺好了！</div>
     <div class="win-sub" id="winStats"></div>
     <button class="win-close" id="winClose">🥹 太好了…</button>
   </div>
@@ -364,6 +366,8 @@ const winClose=document.getElementById('winClose');
 const progressFill=document.getElementById('progressFill');
 const progressPct=document.getElementById('progressPct');
 const countdownDays=document.getElementById('countdownDays');
+const momFace=document.getElementById('momFace');
+const momBanner=document.getElementById('momBanner');
 const voiceToggle=document.getElementById('voiceToggle');
 const introOverlay=document.getElementById('introOverlay');
 const introStart=document.getElementById('introStart');
@@ -501,12 +505,21 @@ function dodge(){
   btn.style.transform='none';
 }
 
+var recoveryTexts={
+  '肺部':'🫁 通了',
+  '梨汤':'🍐 喝了',
+  '药':'💊 吃了',
+  '拍背':'🤲 拍了',
+  '温水':'🫖 热了',
+  '安睡':'💤 睡了'
+};
 function waterOne(){
   var dry=document.querySelectorAll('.crop.dry');
   if(dry.length>0){
     var c=dry[Math.floor(Math.random()*dry.length)];
     c.classList.remove('dry');c.classList.add('watered');
-    c.querySelector('.status').textContent='✅ 好了';
+    var name=c.querySelector('.name').textContent;
+    c.querySelector('.status').textContent=recoveryTexts[name]||'✅ 好了';
   }
 }
 
@@ -515,6 +528,21 @@ function getPhaseTaunt(){
   if(attempts>=19)return phase3Taunts[Math.floor(Math.random()*phase3Taunts.length)];
   if(attempts>=13)return phase2Taunts[Math.floor(Math.random()*phase2Taunts.length)];
   return taunts[Math.floor(Math.random()*taunts.length)];
+}
+
+// 😷➡️🥰 妈妈状态随进度变好
+function updateMomCondition(){
+  var pct=attempts/VICTORY;
+  var face, banner;
+  if(pct>=1){face='🥰';banner='🎉 妈妈康复了！！肺全好了！！'}
+  else if(pct>=0.92){face='😊';banner='💖 妈妈快好了！呼吸顺畅多了！'}
+  else if(pct>=0.76){face='🙂';banner='😌 妈妈能下床了，咳嗽少了很多';}
+  else if(pct>=0.52){face='😌';banner='🍐 梨汤起效了…妈妈呼吸好一点了';}
+  else if(pct>=0.28){face='😷';banner='🫁 妈妈还在咳…但你在努力！';}
+  else if(pct>=0.12){face='🤒';banner='🫁 妈妈肺不舒服…继续加油！';}
+  else{face='😷';banner='🫁 肺不舒服…帮妈妈撑过去！';}
+  momFace.textContent=face;
+  momBanner.textContent=banner;
 }
 
 function updateButton(){
@@ -572,6 +600,7 @@ function tryWater(){
     }
   }
 
+  updateMomCondition();
   updateButton();
   updateStorage();
   updateDecorations();
@@ -594,11 +623,12 @@ function tryWater(){
     done=true;
     btn.className='water-btn';
     btn.style.left='50%';btn.style.top='50%';btn.style.transform='translate(-50%,-50%)';
-    btn.textContent='❤️❤️ 妈妈康复了！！ ❤️❤️';
-    btn.style.background='linear-gradient(135deg,#e17055,#ff7675)';
+    btn.textContent='🥰 妈妈肺好了！！能呼吸了！！';
+    btn.style.background='linear-gradient(135deg,#ff7675,#fab1a0)';
     document.querySelectorAll('.crop').forEach(function(c){
       c.classList.remove('dry');c.classList.add('watered');
-      c.querySelector('.status').textContent='✅ 好了';
+      var name=c.querySelector('.name').textContent;
+      c.querySelector('.status').textContent=recoveryTexts[name]||'✅ 好了';
     });
     progressFill.style.width='100%';
     progressPct.textContent='100%';
@@ -606,16 +636,16 @@ function tryWater(){
     storageSlots.forEach(function(s){s.classList.add('filled')});
     floatingDecos.forEach(function(d){d.classList.add('visible')});
 
-    updateMsg('<span style="font-size:40px">🥰</span><br>❤️ 妈妈康复了！！ ❤️<br>你加了 <b style="color:#d63031;font-size:30px">'+attempts+'</b> 次油！你是最棒的孩子！！');
+    updateMsg('<span style="font-size:40px">🥰</span><br>🫁 妈妈的肺好了！！能畅快呼吸了！！<br>你加了 <b style="color:#d63031;font-size:30px">'+attempts+'</b> 次油！你是最棒的孩子！！');
 
     playAudio('victory');
 
     setTimeout(function(){
       winStats.innerHTML='<b style="color:#d63031;font-size:16px">🏆 最棒的孩子</b><br><br>'+
-        '你为妈妈加油了 <b style="color:#d63031;font-size:26px">'+attempts+'</b> 次<br>'+
-        '每一次，妈妈都收到了你的爱 ❤️<br><br>'+
-        '<b style="color:#d63031;font-size:18px">「妈妈笑着流泪说：<br>你是妈妈这辈子最大的骄傲」</b><br><br>'+
-        '<span style="color:#795548;font-size:13px">你的爱，比任何药都管用<br>妈妈好了，你们可以一起去公园了</span>';
+        '你帮妈妈了 <b style="color:#d63031;font-size:26px">'+attempts+'</b> 次<br>'+
+        '每一次拍背、每一碗梨汤、每一粒药 ❤️<br><br>'+
+        '<b style="color:#d63031;font-size:18px">「妈妈深呼吸了一口：<br>终于不咳了…肺里好舒服」</b><br><br>'+
+        '<span style="color:#795548;font-size:13px">你的爱比任何药都管用<br>妈妈能畅快呼吸了，你们去公园吧</span>';
       winOverlay.classList.add('show');
     },800);
   }
@@ -630,16 +660,20 @@ function closeWin(){
     btn.textContent='💪 给妈妈加油';
     btn.style.background='linear-gradient(135deg,#e17055,#d63031)';
     btn.className='water-btn';
+    var resetStatus={'肺部':'😰 闷着','梨汤':'😰 没喝','药':'😰 没吃','拍背':'😰 没拍','温水':'😰 冷了','安睡':'😰 失眠'};
     document.querySelectorAll('.crop').forEach(function(c){
       c.classList.remove('watered');c.classList.add('dry');
-      c.querySelector('.status').textContent='😰 没做';
+      var n=c.querySelector('.name').textContent;
+      c.querySelector('.status').textContent=resetStatus[n]||'😰 没做';
     });
     progressFill.style.width='0%';
     progressPct.textContent='0%';
     countdownDays.textContent='7';
+    momFace.textContent='😷';
+    momBanner.textContent='🫁 肺不舒服…帮妈妈撑过去！';
     storageSlots.forEach(function(s){s.classList.remove('filled')});
     floatingDecos.forEach(function(d){d.classList.remove('visible')});
-    updateMsg('🤒 妈妈不舒服…快帮妈妈！');
+    updateMsg('😷 妈妈咳得厉害…快帮妈妈！');
   },500);
 }
 
@@ -653,7 +687,7 @@ winClose.addEventListener('pointerdown',function(e){
   closeWin();
 });
 
-updateMsg('🤒 妈妈不舒服…快帮妈妈！');
+updateMsg('😷 妈妈咳得厉害…快帮妈妈！');
 
 // 📲 微信介绍弹窗：点"开始"关闭
 introStart.addEventListener('pointerdown',function(e){
