@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>妈妈加油 ❤️ 康复大作战</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow-x:hidden}
+body{
+  font-family:'PingFang SC','Microsoft YaHei',sans-serif;
+  background:linear-gradient(180deg,#fdcb6e 0%,#fab1a0 45%,#e17055 100%);
+  display:flex;justify-content:center;align-items:center;
+  touch-action:manipulation;
+  -webkit-user-select:none;user-select:none;
+  -webkit-tap-highlight-color:transparent;
+  -webkit-touch-callout:none;
+}
+.container{width:100%;max-width:420px;min-height:100vh;height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px 15px;position:relative}
+
+/* 天空 */
+.sky{position:absolute;top:0;left:0;width:100%;height:30%;background:linear-gradient(180deg,#ffeaa7,transparent);z-index:0}
+
+/* 温暖装饰 */
+.hearts{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1}
+.heart{position:absolute;font-size:24px;opacity:.5;animation:heartFloat 4s ease-in-out infinite}
+.heart:nth-child(1){top:8%;left:5%;animation-delay:0s}
+.heart:nth-child(2){top:15%;right:8%;animation-delay:1s;font-size:18px}
+.heart:nth-child(3){top:22%;left:10%;animation-delay:2s;font-size:30px}
+.heart:nth-child(4){top:5%;right:15%;animation-delay:3s}
+.heart:nth-child(5){top:12%;left:85%;animation-delay:.5s;font-size:20px}
+@keyframes heartFloat{0%,100%{transform:translateY(0) rotate(0);opacity:.5}50%{transform:translateY(-20px) rotate(10deg);opacity:.8}}
+
+.header{position:relative;z-index:2;text-align:center;margin-bottom:6px}
+.header .icon{font-size:50px;display:inline-block;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+.title{font-size:26px;font-weight:900;color:#2d3436;text-shadow:2px 2px 0 rgba(255,255,255,.5)}
+
+.warm-banner{
+  display:inline-block;
+  background:linear-gradient(90deg,#e17055,#d63031,#e17055);
+  background-size:200% auto;
+  color:#fff;
+  padding:7px 18px;
+  border-radius:20px;
+  font-size:13px;
+  font-weight:bold;
+  animation:doomShine 2.5s ease-in-out infinite;
+  letter-spacing:2px;
+  margin-top:4px;
+  box-shadow:0 0 16px rgba(225,112,85,.6);
+}
+@keyframes doomShine{
+  0%,100%{box-shadow:0 0 10px rgba(225,112,85,.5);background-position:0% center}
+  50%{box-shadow:0 0 25px rgba(225,112,85,.8);background-position:100% center}
+}
+
+/* 背景故事 */
+.story-box{
+  position:relative;z-index:2;
+  background:rgba(255,255,255,.85);
+  border-left:4px solid #e17055;
+  border-radius:8px;
+  padding:12px 14px;
+  margin:0 4px 8px;
+  max-width:380px;
+  box-shadow:0 4px 12px rgba(0,0,0,.08);
+}
+.story-box p{
+  color:#5D4037;
+  font-size:14px;
+  line-height:1.8;
+  margin:0;
+  font-weight:500;
+}
+.story-box .highlight{color:#d63031;font-weight:bold}
+.story-box .love-highlight{
+  color:#e17055;
+  font-weight:900;
+}
+
+/* 语音按钮 */
+.voice-toggle{
+  position:fixed;top:12px;right:12px;z-index:500;
+  background:rgba(225,112,85,.7);color:#fff;
+  border:1px solid rgba(255,255,255,.3);border-radius:20px;
+  padding:7px 14px;font-size:12px;cursor:pointer;
+  backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+  transition:all .2s;
+}
+.voice-toggle.off{background:rgba(0,0,0,.4);border-color:rgba(255,255,255,.1)}
+
+/* 照护区 */
+.garden{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:10px;
+  background:linear-gradient(180deg,#fff3e0,#ffe0b2);
+  border-radius:14px;padding:18px 12px;margin:8px 0 12px;
+  box-shadow:0 8px 30px rgba(0,0,0,.1),inset 0 2px 4px rgba(255,255,255,.5);
+  border:3px solid #ffccbc;position:relative;width:100%
+}
+.garden.shake{animation:gShake .45s ease}
+@keyframes gShake{
+  0%,100%{transform:translateX(0)}
+  25%{transform:translateX(-6px) rotate(-.5deg)}
+  50%{transform:translateX(6px) rotate(.5deg)}
+  75%{transform:translateX(-3px)}
+}
+.garden-bottom{text-align:center;font-size:12px;color:#e17055;font-weight:bold;margin-top:-8px;margin-bottom:4px;letter-spacing:1px}
+
+.crop{
+  background:linear-gradient(180deg,#ffe0b2,#ffccbc);
+  border-radius:10px;padding:10px 5px 8px;display:flex;
+  flex-direction:column;align-items:center;gap:3px;
+  border:2px solid #ffab91;position:relative;
+  transition:all .35s ease;box-shadow:0 3px 6px rgba(0,0,0,.1)
+}
+.crop.dry{border-color:#e17055;background:linear-gradient(180deg,#ffccbc,#ffab91)}
+.crop.watered{background:linear-gradient(180deg,#c8e6c9,#a5d6a7);border-color:#81c784;box-shadow:0 0 12px rgba(129,199,132,.45)}
+.crop .icon{font-size:36px;transition:all .3s}
+.crop.dry .icon{filter:grayscale(.4) brightness(.8);animation:wilt 2.5s ease-in-out infinite}
+@keyframes wilt{0%,100%{transform:rotate(0)}30%{transform:rotate(-3deg)}70%{transform:rotate(3deg)}}
+.crop.watered .icon{filter:none;animation:popIn .5s ease}
+@keyframes popIn{0%{transform:scale(1)}50%{transform:scale(1.25)}100%{transform:scale(1)}}
+.crop .name{font-size:10px;color:#795548;font-weight:bold}
+.crop .status{font-size:9px;padding:2px 8px;border-radius:10px;font-weight:bold}
+.crop.dry .status{background:#ff5252;color:#fff;animation:blink 1s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+.crop.watered .status{background:#66BB6A;color:#fff}
+
+/* 进度条 */
+.progress-wrap{width:100%;position:relative;z-index:2;margin-bottom:2px}
+.progress-label{display:flex;justify-content:space-between;font-size:10px;color:#e17055;font-weight:bold;margin-bottom:2px}
+.progress-bar{width:100%;height:6px;background:rgba(255,255,255,.5);border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,#e17055,#d63031);transition:width .3s;width:0%;border-radius:3px}
+
+/* 存储架 */
+.storage-section{position:relative;z-index:2;width:100%;margin-bottom:4px}
+.storage-title{font-size:10px;color:#e17055;font-weight:bold;text-align:center;margin-bottom:3px;letter-spacing:1px}
+.storage-shelf{
+  display:flex;flex-wrap:wrap;gap:4px;justify-content:center;
+  background:rgba(255,255,255,.5);border-radius:8px;padding:6px 8px;
+  border:1px solid rgba(225,112,85,.2);
+  min-height:36px;align-items:center;
+}
+.storage-slot{font-size:20px;opacity:.15;transition:all .5s ease;filter:grayscale(1) brightness(.5)}
+.storage-slot.filled{opacity:1;filter:none;animation:slotPop .4s ease}
+@keyframes slotPop{0%{transform:scale(0)}50%{transform:scale(1.4)}100%{transform:scale(1)}}
+
+/* 浮动装饰 */
+.floating-deco{
+  position:fixed;pointer-events:none;z-index:3;
+  font-size:28px;opacity:0;transition:opacity .6s ease;
+  animation:decoFloat 3s ease-in-out infinite;
+}
+.floating-deco.visible{opacity:.7}
+@keyframes decoFloat{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-15px) rotate(5deg)}}
+
+.btn-zone{position:relative;z-index:10;width:100%;height:140px}
+.water-btn{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  background:linear-gradient(135deg,#e17055,#d63031);
+  color:#fff;font-size:19px;font-weight:900;
+  padding:16px 44px;border:none;border-radius:50px;
+  box-shadow:0 8px 28px rgba(225,112,85,.4);
+  transition:all .15s ease;
+  white-space:nowrap;
+  -webkit-tap-highlight-color:transparent;
+  letter-spacing:2px;z-index:10;
+  cursor:pointer;outline:none;-webkit-appearance:none;
+}
+
+/* 按钮进化 */
+.water-btn.phase2{transform:translate(-50%,-50%) scale(1.1)!important;background:linear-gradient(135deg,#d63031,#c0392b)!important;box-shadow:0 8px 30px rgba(214,48,49,.5)!important}
+.water-btn.phase3{transform:translate(-50%,-50%) scale(1.2)!important;background:linear-gradient(135deg,#c0392b,#96281b)!important;box-shadow:0 10px 35px rgba(192,57,43,.6)!important;animation:btnPulse3 .8s ease-in-out infinite}
+@keyframes btnPulse3{0%,100%{box-shadow:0 10px 35px rgba(192,57,43,.6)}50%{box-shadow:0 15px 45px rgba(192,57,43,.9)}}
+.water-btn.phase4{transform:translate(-50%,-50%) scale(1.3)!important;background:linear-gradient(135deg,#8b0000,#c0392b)!important;box-shadow:0 12px 40px rgba(139,0,0,.7)!important;animation:btnPulse4 .5s ease-in-out infinite}
+@keyframes btnPulse4{0%,100%{box-shadow:0 12px 40px rgba(139,0,0,.7)}50%{box-shadow:0 20px 55px rgba(139,0,0,1)}}
+.water-btn.phase5{transform:translate(-50%,-50%) scale(1.4)!important;background:linear-gradient(135deg,#600,#8b0000)!important;box-shadow:0 15px 50px rgba(102,0,0,.8)!important;animation:btnPulse5 .3s ease-in-out infinite}
+@keyframes btnPulse5{0%,100%{box-shadow:0 15px 50px rgba(102,0,0,.8);transform:translate(-50%,-50%) scale(1.4)}50%{box-shadow:0 25px 65px rgba(255,0,0,1);transform:translate(-50%,-50%) scale(1.45)}}
+.water-btn.phase6{transform:translate(-50%,-50%) scale(1.5)!important;background:linear-gradient(135deg,#300,#600)!important;box-shadow:0 20px 60px rgba(48,0,0,.9)!important;animation:btnShake .2s ease-in-out infinite}
+@keyframes btnShake{0%,100%{transform:translate(-50%,-50%) scale(1.5)}25%{transform:translate(-48%,-52%) scale(1.52)}50%{transform:translate(-52%,-48%) scale(1.48)}75%{transform:translate(-49%,-51%) scale(1.51)}}
+
+.msg-box{text-align:center;min-height:60px;margin-top:8px;z-index:2}
+.msg-box .big{font-size:22px;font-weight:900;display:block;margin-bottom:3px}
+.msg-box .sub{font-size:12px;color:#795548}
+
+.particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:200}
+.particle{position:absolute;font-size:22px;animation:flyUp 1s ease-out forwards}
+@keyframes flyUp{
+  0%{opacity:1;transform:translateY(0) scale(1) rotate(0)}
+  100%{opacity:0;transform:translateY(-100px) scale(.3) rotate(180deg)}
+}
+
+.win-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);z-index:400;justify-content:center;align-items:center}
+.win-overlay.show{display:flex}
+.win-dialog{
+  background:linear-gradient(180deg,#fff5f5,#ffe0e0);
+  border-radius:20px;padding:30px;text-align:center;
+  max-width:340px;width:90%;animation:bounceIn .5s ease;
+  box-shadow:0 20px 60px rgba(225,112,85,.3);
+}
+@keyframes bounceIn{0%{transform:scale(.3);opacity:0}50%{transform:scale(1.05)}100%{transform:scale(1);opacity:1}}
+.win-icon{font-size:60px;margin-bottom:15px}
+.win-text{font-size:22px;font-weight:900;color:#d63031;margin-bottom:10px}
+.win-sub{font-size:14px;color:#5D4037;margin-bottom:20px;line-height:1.7}
+.win-close{
+  background:linear-gradient(135deg,#e17055,#d63031);
+  color:#fff;border:none;padding:12px 35px;border-radius:30px;
+  font-size:16px;font-weight:bold;cursor:pointer;-webkit-appearance:none;
+  box-shadow:0 4px 15px rgba(225,112,85,.4);
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="sky"></div>
+  <div class="hearts">
+    <span class="heart">❤️</span><span class="heart">💕</span><span class="heart">💝</span><span class="heart">💗</span><span class="heart">💖</span>
+  </div>
+
+  <div class="header">
+    <div class="icon">🤒</div>
+    <div class="title">💪 妈妈加油！</div>
+    <div class="warm-banner">🏥 妈妈需要你 · 康复倒计时 <b id="countdownDays">7</b> 天 🏥</div>
+  </div>
+
+  <div class="story-box">
+    <p>
+    「妈妈<span class="highlight">生病了</span>…所有人都说我小，帮不上忙。<br>
+    但我知道，<span class="love-highlight">每一份关心</span>，每一次加油，<br>
+    <span class="highlight">每一碗热汤</span>、<span class="highlight">每一粒药</span>——<br>
+    都是妈妈<span class="love-highlight">好起来的力量</span>。」
+    </p>
+  </div>
+
+  <div class="garden" id="garden">
+    <div class="crop dry"><span class="icon">💊</span><span class="name">退烧药</span><span class="status">😰 没吃</span></div>
+    <div class="crop dry"><span class="icon">🍲</span><span class="name">热汤</span><span class="status">😰 凉了</span></div>
+    <div class="crop dry"><span class="icon">🧣</span><span class="name">围巾</span><span class="status">😰 没围</span></div>
+    <div class="crop dry"><span class="icon">🫖</span><span class="name">热水</span><span class="status">😰 冷了</span></div>
+    <div class="crop dry"><span class="icon">🌸</span><span class="name">鲜花</span><span class="status">😰 蔫了</span></div>
+    <div class="crop dry"><span class="icon">📖</span><span class="name">陪护</span><span class="status">😰 没人</span></div>
+  </div>
+  <div class="garden-bottom">🏠 妈妈康复 · 爱心照护站</div>
+
+  <div class="storage-section">
+    <div class="storage-title">🎁 照护物资篮</div>
+    <div class="storage-shelf" id="storageShelf">
+      <span class="storage-slot">💊</span><span class="storage-slot">🍲</span><span class="storage-slot">🧣</span>
+      <span class="storage-slot">🫖</span><span class="storage-slot">🌸</span><span class="storage-slot">📖</span>
+      <span class="storage-slot">🍎</span><span class="storage-slot">🍯</span><span class="storage-slot">🧸</span>
+      <span class="storage-slot">🎀</span><span class="storage-slot">🍊</span><span class="storage-slot">🥛</span>
+      <span class="storage-slot">🧦</span><span class="storage-slot">💌</span><span class="storage-slot">🫂</span>
+      <span class="storage-slot">🍬</span><span class="storage-slot">🌻</span><span class="storage-slot">🎵</span>
+      <span class="storage-slot">🏥</span><span class="storage-slot">❤️</span><span class="storage-slot">🌟</span>
+    </div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-label"><span>❤️ 康复进度</span><span id="progressPct">0%</span></div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+
+  <div class="btn-zone" id="btnZone">
+    <button class="water-btn" id="waterBtn">💪 给妈妈加油</button>
+  </div>
+
+  <div class="msg-box" id="msgBox">
+    <span class="big" style="color:#5D4037">🤒 妈妈不舒服…快帮妈妈！</span>
+  </div>
+</div>
+
+<div id="particles" class="particles"></div>
+
+<div class="win-overlay" id="winOverlay">
+  <div class="win-dialog">
+    <div class="win-icon">🥰</div>
+    <div class="win-text">❤️ 妈妈康复了！</div>
+    <div class="win-sub" id="winStats"></div>
+    <button class="win-close" id="winClose">🥹 太好了…</button>
+  </div>
+</div>
+
+<!-- 浮动爱心 -->
+<div class="floating-deco" id="deco1" style="top:5%;left:3%">💝</div>
+<div class="floating-deco" id="deco2" style="top:10%;right:5%">💖</div>
+<div class="floating-deco" id="deco3" style="top:25%;left:2%">💗</div>
+<div class="floating-deco" id="deco4" style="top:20%;right:3%">💕</div>
+<div class="floating-deco" id="deco5" style="bottom:35%;left:4%">🌸</div>
+<div class="floating-deco" id="deco6" style="bottom:40%;right:5%">🌻</div>
+<div class="floating-deco" id="deco7" style="top:15%;left:6%">🎀</div>
+<div class="floating-deco" id="deco8" style="bottom:30%;right:4%">💌</div>
+<div class="floating-deco" id="deco9" style="top:8%;left:88%">🍀</div>
+<div class="floating-deco" id="deco10" style="bottom:20%;left:90%">🫂</div>
+<div class="floating-deco" id="deco11" style="top:45%;left:1%">🧸</div>
+<div class="floating-deco" id="deco12" style="top:50%;right:1%">🌟</div>
+
+<button class="voice-toggle" id="voiceToggle" title="语音开关">🔊 鼓励语音</button>
+
+<script>
+(function(){
+const btn=document.getElementById('waterBtn');
+const btnZone=document.getElementById('btnZone');
+const garden=document.getElementById('garden');
+const msgBox=document.getElementById('msgBox');
+const particlesBox=document.getElementById('particles');
+const winOverlay=document.getElementById('winOverlay');
+const winStats=document.getElementById('winStats');
+const winClose=document.getElementById('winClose');
+const progressFill=document.getElementById('progressFill');
+const progressPct=document.getElementById('progressPct');
+const countdownDays=document.getElementById('countdownDays');
+const voiceToggle=document.getElementById('voiceToggle');
+const storageShelf=document.getElementById('storageShelf');
+const storageSlots=storageShelf.querySelectorAll('.storage-slot');
+const floatingDecos=document.querySelectorAll('.floating-deco');
+
+const VICTORY=200;
+let attempts=0,done=false,voiceOn=true,voiceStarted=false;
+
+// 🔊 音频播放
+var currentAudio=null;
+function playAudio(name){
+  if(!voiceOn)return;
+  if(currentAudio){currentAudio.pause();currentAudio.src='';currentAudio=null;}
+  var a=new Audio();
+  a.src='audio/'+name+'.mp3';
+  currentAudio=a;
+  var played=false;
+  var doPlay=function(){if(!played){played=true;a.play().catch(function(){})}};
+  a.addEventListener('canplay',doPlay,{once:true});
+  a.load();
+  a.play().catch(function(){});
+}
+
+voiceToggle.addEventListener('pointerdown',function(e){
+  e.preventDefault();e.stopPropagation();
+  voiceOn=!voiceOn;
+  if(voiceOn){
+    voiceToggle.textContent='🔊 鼓励语音';
+    voiceToggle.classList.remove('off');
+  }else{
+    voiceToggle.textContent='🔇 语音已关';
+    voiceToggle.classList.add('off');
+    if(currentAudio){currentAudio.pause();currentAudio=null;}
+  }
+});
+
+// 里程碑
+var milestoneVoices={
+  20:1,50:1,80:1,100:1,120:1,150:1,180:1
+};
+
+function speakMilestone(n){
+  if(milestoneVoices[n])playAudio('milestone'+n);
+}
+
+var lastMilestone=0;
+
+// 挫折文案
+var taunts=[
+  '<span style="font-size:40px">😣</span><br>药掉了！没关系捡起来继续！',
+  '<span style="font-size:40px">😰</span><br>汤洒了一点点…再盛一碗！',
+  '<span style="font-size:40px">😥</span><br>妈妈咳了一声…不怕！',
+  '<span style="font-size:40px">🥺</span><br>围巾没围好…再来一次！',
+  '<span style="font-size:40px">😤</span><br>护士说再试一次！不能放弃！',
+  '<span style="font-size:40px">💪</span><br>第<span style="color:#d63031;font-size:24px">{n}</span>次了！妈妈在看着你呢！',
+  '<span style="font-size:40px">😢</span><br>水凉了…但心是热的！重来！',
+  '<span style="font-size:40px">🤒</span><br>妈妈又发烧了…你不能停！',
+  '<span style="font-size:40px">😭</span><br>隔壁阿姨说放弃吧，你信她？！',
+  '<span style="font-size:40px">🫂</span><br>不哭不哭…眼泪擦干继续！',
+  '<span style="font-size:40px">😤</span><br>谁说小孩帮不上忙？！继续！',
+  '<span style="font-size:40px">💔</span><br>心好累…但想到妈妈又有了力量！',
+  '<span style="font-size:40px">🤧</span><br>你也感冒了吗？不行！撑住！',
+  '<span style="font-size:40px">😮‍💨</span><br>呼…深呼吸！再来！',
+  '<span style="font-size:40px">🫡</span><br>妈妈说我真棒…不能让她失望！',
+  '<span style="font-size:40px">🤕</span><br>手指酸了？想想妈妈！',
+  '<span style="font-size:40px">😇</span><br>每一次加油妈妈都听到了！',
+  '<span style="font-size:40px">🌧️</span><br>窗外下雨了…但你在屋里给妈妈撑伞！',
+  '<span style="font-size:40px">😾</span><br>病魔！你敢动我妈试试！继续！',
+  '<span style="font-size:40px">🔥</span><br>第<span style="color:#d63031;font-size:24px">{n}</span>次！你的爱比什么都管用！'
+];
+
+var phase2Taunts=[
+  '<span style="font-size:40px">🥹</span><br>一百多次了…妈妈都感动哭了',
+  '<span style="font-size:40px">😊</span><br>妈妈笑了！虽然只是一下下！',
+  '<span style="font-size:40px">🤗</span><br>隔壁阿姨说你真孝顺…但还不够！',
+  '<span style="font-size:40px">😌</span><br>妈妈的烧退了一点…继续加油！',
+  '<span style="font-size:40px">🫶</span><br>第<span style="color:#d63031;font-size:24px">{n}</span>次…你是最棒的孩子！',
+];
+
+var phase3Taunts=[
+  '<span style="font-size:40px">🥰</span><br>妈妈坐起来了！你的努力有效！',
+  '<span style="font-size:40px">😭</span><br>妈妈说你瘦了…你说不累！继续！',
+  '<span style="font-size:40px">🤩</span><br>第<span style="color:#d63031;font-size:24px">{n}</span>次！医生都惊呆了！',
+  '<span style="font-size:40px">😤</span><br>病魔快输了！乘胜追击！',
+  '<span style="font-size:40px">👊</span><br>就差一点！妈妈快好了！',
+];
+
+var phase4Taunts=[
+  '<span style="font-size:40px">🤯</span><br>快好了快好了！！妈妈在微笑！！',
+  '<span style="font-size:40px">😍</span><br>妈妈说你真棒！！说了一百遍了！！',
+  '<span style="font-size:40px">🥳</span><br>医生说要出院了！！再坚持一下！！',
+  '<span style="font-size:40px">🫡</span><br>第<span style="color:#d63031;font-size:24px">{n}</span>次！！你是妈妈的小英雄！！',
+  '<span style="font-size:40px">💖</span><br>所有护士都哭了！！继续！！继续！！',
+];
+
+function updateMsg(html){
+  msgBox.innerHTML='<span class="big">'+html+'</span>';
+  if(attempts>0&&!done){
+    var pct=Math.min(100,Math.floor(attempts/VICTORY*100));
+    msgBox.innerHTML+='<span class="sub" style="color:#d63031;font-size:14px;font-weight:bold">已加油 <b style="font-size:20px">'+attempts+'</b> 次 | 康复进度 <b style="font-size:20px">'+pct+'%</b></span>';
+  }
+}
+
+function updateProgress(){
+  var pct=Math.min(100,Math.floor(attempts/VICTORY*100));
+  progressFill.style.width=pct+'%';
+  progressPct.textContent=pct+'%';
+  var daysLeft=Math.max(0,7-Math.floor(pct/14.3));
+  countdownDays.textContent=daysLeft;
+}
+
+function spawnParticles(x,y){
+  var emojis=['❤️','💕','💝','💗','💖','✨','🌟','💪','🥰','🌸'];
+  for(var i=0;i<10;i++){
+    var p=document.createElement('span');
+    p.className='particle';
+    p.textContent=emojis[i%emojis.length];
+    p.style.left=(x+(Math.random()-.5)*90)+'px';
+    p.style.top=y+'px';
+    p.style.animationDuration=(.6+Math.random()*.8)+'s';
+    particlesBox.appendChild(p);
+    setTimeout(function(){p.remove()},1500);
+  }
+}
+
+function dodge(){
+  var w=btnZone.offsetWidth-btn.offsetWidth;
+  var h=btnZone.offsetHeight-btn.offsetHeight;
+  var x=Math.max(0,Math.min(w,Math.random()*w));
+  var y=Math.max(0,Math.min(h,Math.random()*h));
+  btn.style.left=x+'px';
+  btn.style.top=y+'px';
+  btn.style.transform='none';
+}
+
+function waterOne(){
+  var dry=document.querySelectorAll('.crop.dry');
+  if(dry.length>0){
+    var c=dry[Math.floor(Math.random()*dry.length)];
+    c.classList.remove('dry');c.classList.add('watered');
+    c.querySelector('.status').textContent='✅ 好了';
+  }
+}
+
+function getPhaseTaunt(){
+  if(attempts>=180)return phase4Taunts[Math.floor(Math.random()*phase4Taunts.length)];
+  if(attempts>=150)return phase3Taunts[Math.floor(Math.random()*phase3Taunts.length)];
+  if(attempts>=100)return phase2Taunts[Math.floor(Math.random()*phase2Taunts.length)];
+  return taunts[Math.floor(Math.random()*taunts.length)];
+}
+
+function updateButton(){
+  btn.className='water-btn';
+  var pct=attempts/VICTORY;
+  if(pct>=0.9)btn.classList.add('phase6');
+  else if(pct>=0.75)btn.classList.add('phase5');
+  else if(pct>=0.5)btn.classList.add('phase4');
+  else if(pct>=0.25)btn.classList.add('phase3');
+  else if(pct>=0.1)btn.classList.add('phase2');
+}
+
+function updateStorage(){
+  var pct=attempts/VICTORY;
+  var total=storageSlots.length;
+  var toFill=Math.floor(pct*total);
+  storageSlots.forEach(function(slot,i){
+    if(i<toFill)slot.classList.add('filled');
+    else slot.classList.remove('filled');
+  });
+}
+
+function updateDecorations(){
+  var pct=attempts/VICTORY;
+  var total=floatingDecos.length;
+  var toShow=Math.floor(pct*total);
+  floatingDecos.forEach(function(deco,i){
+    if(i<toShow)deco.classList.add('visible');
+    else deco.classList.remove('visible');
+  });
+}
+
+function tryWater(){
+  if(done)return;
+  attempts++;
+
+  if(!voiceStarted){
+    voiceStarted=true;
+    playAudio('backstory');
+  }
+
+  var rect=btn.getBoundingClientRect();
+  spawnParticles(rect.left+rect.width/2,rect.top);
+  dodge();
+
+  var t=getPhaseTaunt().replace('{n}',attempts);
+  updateMsg(t);
+  updateProgress();
+
+  if(attempts>=20&&Math.floor(attempts/10)!==lastMilestone){
+    var m=Math.floor(attempts/10)*10;
+    if(milestoneVoices[m]){
+      lastMilestone=Math.floor(attempts/10);
+      speakMilestone(m);
+    }
+  }
+
+  updateButton();
+  updateStorage();
+  updateDecorations();
+
+  if(attempts%5===0){
+    garden.classList.add('shake');
+    setTimeout(function(){garden.classList.remove('shake')},450);
+  }
+
+  if(attempts>=100&&attempts<150){
+    if(attempts%3===0)waterOne();
+    if(attempts%10===0)updateMsg('<span style="font-size:38px">🥹</span><br>妈妈在好转…要坚持！<br>康复进度:'+Math.floor(attempts/VICTORY*100)+'%');
+  }else if(attempts>=150&&attempts<180){
+    if(attempts%2===0)waterOne();
+    if(attempts%15===0)updateMsg('<span style="font-size:38px">😊</span><br>妈妈能下床了！！<br>还剩 <b style="color:#d63031;font-size:28px">'+(200-attempts)+'</b> 次！再坚持一下！！');
+  }else if(attempts>=180&&attempts<VICTORY){
+    waterOne();
+    if(attempts%7===0)updateMsg('<span style="font-size:38px">🔥</span><br>妈妈马上就要好了！！<br>还差 <b style="color:#d63031;font-size:30px">'+(VICTORY-attempts)+'</b> 次！！加油加油！！');
+  }else if(attempts>=VICTORY){
+    done=true;
+    btn.className='water-btn';
+    btn.style.left='50%';btn.style.top='50%';btn.style.transform='translate(-50%,-50%)';
+    btn.textContent='❤️❤️ 妈妈康复了！！ ❤️❤️';
+    btn.style.background='linear-gradient(135deg,#e17055,#ff7675)';
+    document.querySelectorAll('.crop').forEach(function(c){
+      c.classList.remove('dry');c.classList.add('watered');
+      c.querySelector('.status').textContent='✅ 好了';
+    });
+    progressFill.style.width='100%';
+    progressPct.textContent='100%';
+    countdownDays.textContent='0';
+    storageSlots.forEach(function(s){s.classList.add('filled')});
+    floatingDecos.forEach(function(d){d.classList.add('visible')});
+
+    updateMsg('<span style="font-size:40px">🥰</span><br>❤️ 妈妈康复了！！ ❤️<br>你加了 <b style="color:#d63031;font-size:30px">'+attempts+'</b> 次油！你是最棒的孩子！！');
+
+    playAudio('victory');
+
+    setTimeout(function(){
+      winStats.innerHTML='<b style="color:#d63031;font-size:16px">🏆 最棒的孩子</b><br><br>'+
+        '你为妈妈加油了 <b style="color:#d63031;font-size:26px">'+attempts+'</b> 次<br>'+
+        '每一次，妈妈都收到了你的爱 ❤️<br><br>'+
+        '<b style="color:#d63031;font-size:18px">「妈妈笑着流泪说：<br>你是妈妈这辈子最大的骄傲」</b><br><br>'+
+        '<span style="color:#795548;font-size:13px">你的爱，比任何药都管用<br>妈妈好了，你们可以一起去公园了</span>';
+      winOverlay.classList.add('show');
+    },800);
+  }
+}
+
+function closeWin(){
+  winOverlay.classList.remove('show');
+  if(currentAudio){currentAudio.pause();currentAudio=null;}
+  setTimeout(function(){
+    attempts=0;done=false;lastMilestone=0;
+    btn.style.left='50%';btn.style.top='50%';btn.style.transform='translate(-50%,-50%)';
+    btn.textContent='💪 给妈妈加油';
+    btn.style.background='linear-gradient(135deg,#e17055,#d63031)';
+    btn.className='water-btn';
+    document.querySelectorAll('.crop').forEach(function(c){
+      c.classList.remove('watered');c.classList.add('dry');
+      c.querySelector('.status').textContent='😰 没做';
+    });
+    progressFill.style.width='0%';
+    progressPct.textContent='0%';
+    countdownDays.textContent='7';
+    storageSlots.forEach(function(s){s.classList.remove('filled')});
+    floatingDecos.forEach(function(d){d.classList.remove('visible')});
+    updateMsg('🤒 妈妈不舒服…快帮妈妈！');
+  },500);
+}
+
+btn.addEventListener('pointerdown',function(e){
+  e.preventDefault();
+  tryWater();
+});
+
+winClose.addEventListener('pointerdown',function(e){
+  e.preventDefault();
+  closeWin();
+});
+
+updateMsg('🤒 妈妈不舒服…快帮妈妈！');
+})();
+</script>
+</body>
+</html>
