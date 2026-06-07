@@ -209,6 +209,35 @@ body{
   font-size:16px;font-weight:bold;cursor:pointer;-webkit-appearance:none;
   box-shadow:0 4px 15px rgba(225,112,85,.4);
 }
+
+/* 📲 微信介绍弹窗 */
+.intro-overlay{
+  display:flex;position:fixed;top:0;left:0;width:100%;height:100%;
+  background:rgba(0,0,0,.7);z-index:500;justify-content:center;align-items:center;
+}
+.intro-overlay.hide{display:none}
+.intro-card{
+  background:linear-gradient(180deg,#fff5f5,#ffe0e0);
+  border-radius:20px;padding:25px 22px;text-align:center;
+  max-width:340px;width:90%;animation:bounceIn .5s ease;
+  box-shadow:0 20px 60px rgba(225,112,85,.3);
+  max-height:90vh;overflow-y:auto;
+}
+.intro-emoji{font-size:55px;margin-bottom:8px}
+.intro-title{font-size:20px;font-weight:900;color:#d63031;margin-bottom:12px;line-height:1.4}
+.intro-story{font-size:13px;color:#5D4037;line-height:1.8;margin-bottom:15px;text-align:left;padding:0 5px}
+.intro-story b{color:#d63031}
+.intro-divider{width:40px;height:3px;background:linear-gradient(90deg,#e17055,#fab1a0);margin:0 auto 12px;border-radius:2px}
+.intro-how{font-size:12px;color:#795548;line-height:1.7;margin-bottom:6px;text-align:left;padding:0 5px}
+.intro-how span{background:#ffe0e0;padding:2px 8px;border-radius:10px;font-weight:bold;color:#d63031;white-space:nowrap}
+.intro-start{
+  background:linear-gradient(135deg,#e17055,#d63031);
+  color:#fff;border:none;padding:14px 50px;border-radius:30px;
+  font-size:18px;font-weight:900;cursor:pointer;-webkit-appearance:none;
+  box-shadow:0 6px 20px rgba(225,112,85,.4);
+  margin-top:8px;letter-spacing:2px;
+  animation:btnPulse3 2s ease-in-out infinite;
+}
 </style>
 </head>
 <body>
@@ -273,6 +302,30 @@ body{
 
 <div id="particles" class="particles"></div>
 
+<!-- 📲 微信介绍弹窗 -->
+<div class="intro-overlay" id="introOverlay">
+  <div class="intro-card">
+    <div class="intro-emoji">🤒❤️‍🩹🥰</div>
+    <div class="intro-title">妈妈加油！<br>帮妈妈康复吧 💪</div>
+    <div class="intro-divider"></div>
+    <div class="intro-story">
+      妈妈<b>生病了</b>，在床上躺了好几天。<br>
+      所有人都说小孩帮不上忙——<br>
+      但你知道，<b>每一碗热汤、每一粒药、每一次陪伴</b>，都是妈妈好起来的力量。<br>
+      你愿意帮妈妈吗？
+    </div>
+    <div class="intro-divider"></div>
+    <div class="intro-how">
+      🎮 <b>怎么玩：</b><br>
+      不停点击 <span>💪 给妈妈加油</span> 按钮<br>
+      ⚠️ 按钮会<b>疯狂闪躲</b>！<br>
+      坚持 <b>25次</b> 就能帮妈妈康复！<br>
+      🔊 记得<b>开声音</b>，有惊喜～
+    </div>
+    <button class="intro-start" id="introStart">❤️ 开始帮妈妈 ❤️</button>
+  </div>
+</div>
+
 <div class="win-overlay" id="winOverlay">
   <div class="win-dialog">
     <div class="win-icon">🥰</div>
@@ -312,6 +365,8 @@ const progressFill=document.getElementById('progressFill');
 const progressPct=document.getElementById('progressPct');
 const countdownDays=document.getElementById('countdownDays');
 const voiceToggle=document.getElementById('voiceToggle');
+const introOverlay=document.getElementById('introOverlay');
+const introStart=document.getElementById('introStart');
 const storageShelf=document.getElementById('storageShelf');
 const storageSlots=storageShelf.querySelectorAll('.storage-slot');
 const floatingDecos=document.querySelectorAll('.floating-deco');
@@ -599,6 +654,12 @@ winClose.addEventListener('pointerdown',function(e){
 });
 
 updateMsg('🤒 妈妈不舒服…快帮妈妈！');
+
+// 📲 微信介绍弹窗：点"开始"关闭
+introStart.addEventListener('pointerdown',function(e){
+  e.preventDefault();
+  introOverlay.classList.add('hide');
+});
 })();
 </script>
 </body>
