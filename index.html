@@ -647,14 +647,14 @@ function tryWater(){
 
   if(attempts>=13&&attempts<19){
     if(attempts%3===0)waterOne();
-    if(attempts%5===0)updateMsg('<span style="font-size:38px">🥹</span><br>妈妈在好转…要坚持！<br>康复进度:'+Math.floor(attempts/VICTORY*100)+'%');
+    if(attempts%5===0)updateMsg('<span style="font-size:38px">🥹</span><br>妈妈在好转…要坚持！<br>康复进度:'+Math.floor(attempts/25*100)+'%');
   }else if(attempts>=19&&attempts<23){
     if(attempts%2===0)waterOne();
-    if(attempts%4===0)updateMsg('<span style="font-size:38px">😊</span><br>妈妈能下床了！！<br>还剩 <b style="color:#d63031;font-size:28px">'+(VICTORY-attempts)+'</b> 次！再坚持一下！！');
-  }else if(attempts>=23&&attempts<VICTORY){
+    if(attempts%4===0)updateMsg('<span style="font-size:38px">😊</span><br>妈妈能下床了！！<br>还剩 <b style="color:#d63031;font-size:28px">'+(25-attempts)+'</b> 次！再坚持一下！！');
+  }else if(attempts>=23&&attempts<25){
     waterOne();
-    if(attempts%3===0)updateMsg('<span style="font-size:38px">🔥</span><br>妈妈马上就要好了！！<br>还差 <b style="color:#d63031;font-size:30px">'+(VICTORY-attempts)+'</b> 次！！加油加油！！');
-  }else if(attempts>=VICTORY){
+    if(attempts%3===0)updateMsg('<span style="font-size:38px">🔥</span><br>妈妈马上就要好了！！<br>还差 <b style="color:#d63031;font-size:30px">'+(25-attempts)+'</b> 次！！加油加油！！');
+  }else if(attempts>=25){
     done=true;
     btn.className='water-btn done';
     btn.textContent='🥰 妈妈肺好了！！能呼吸了！！';
@@ -691,7 +691,8 @@ function tryWater(){
   }
 }
 
-function closeWin(){
+function closeWin(e){
+  e&&e.preventDefault();
   winOverlay.classList.remove('show');
   if(currentAudio){currentAudio.pause();currentAudio=null;}
   setTimeout(function(){
@@ -712,7 +713,7 @@ function closeWin(){
     storageSlots.forEach(function(s){s.classList.remove('filled')});
     floatingDecos.forEach(function(d){d.classList.remove('visible')});
     updateMsg('😷 妈妈咳得厉害…快帮妈妈！');
-  },500);
+  },400);
 }
 
 btn.addEventListener('pointerdown',function(e){
@@ -720,10 +721,7 @@ btn.addEventListener('pointerdown',function(e){
   tryWater();
 });
 
-winClose.addEventListener('pointerdown',function(e){
-  e.preventDefault();
-  closeWin();
-});
+winClose.addEventListener('pointerdown',closeWin);
 
 updateMsg('😷 妈妈咳得厉害…快帮妈妈！');
 
